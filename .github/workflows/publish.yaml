@@ -1,0 +1,29 @@
+name: Publish on pub.dev
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Tap Google's Dart SDK
+        run: brew tap dart-lang/dart
+      - name: Install Dart SDK
+        run: brew install dart
+      - name: Install dependencies
+        run: pub get
+      - name: Format code
+        run: dart format --fix .
+      - name: Check Publish Warnings
+        run: pub publish --dry-run
+      - name: Publish
+        uses: sakebook/actions-flutter-pub-publisher@v1.3.1
+        with:
+          credential: ${{ secrets.CREDENTIAL_JSON }}
+          flutter_package: false
+          skip_test: true
+          dry_run: false
