@@ -1,0 +1,8 @@
+include: package:simform_analysis/analysis_options.1.0.0.yaml
+
+analyzer:
+  exclude:
+    - "test/.test_coverage.dart"
+    - "build/**"
+    - "**/**.g.dart"
+  errors:
